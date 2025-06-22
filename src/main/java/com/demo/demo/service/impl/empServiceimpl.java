@@ -26,19 +26,18 @@ public class empServiceimpl implements empService {
     @Override
     public employee checkIn(employee employeeInput) {
         LocalDate today = LocalDate.now();
-        // ✅ Use employeeId now!
         Optional<employee> optional = employeRepo.findByEmployeeIdAndDate(employeeInput.getEmployeeId(), today);
 
         if (optional.isPresent()) {
             employee existing = optional.get();
             if (existing.getCheckIn() != null) {
-                return existing;
+                return existing; // Already checked in
             }
             existing.setCheckIn(LocalDateTime.now());
             return employeRepo.save(existing);
         } else {
             employee newEmp = new employee();
-            newEmp.setEmployeeId(employeeInput.getEmployeeId());  // ✅ use employeeId, not id!
+            newEmp.setEmployeeId(employeeInput.getEmployeeId());
             newEmp.setDate(today);
             newEmp.setCheckIn(LocalDateTime.now());
             return employeRepo.save(newEmp);
@@ -48,7 +47,6 @@ public class empServiceimpl implements empService {
     @Override
     public employee checkOut(employee employeeInput) {
         LocalDate today = LocalDate.now();
-        // ✅ Use employeeId now!
         Optional<employee> optional = employeRepo.findByEmployeeIdAndDate(employeeInput.getEmployeeId(), today);
 
         if (optional.isPresent()) {
@@ -64,10 +62,7 @@ public class empServiceimpl implements empService {
     public List<employee> findAll() {
         return employeRepo.findAll();
     }
-
 }
-
-
 
 
 
