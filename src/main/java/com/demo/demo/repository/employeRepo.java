@@ -11,6 +11,7 @@ import com.demo.demo.entity.employee;
 
 public interface employeRepo extends MongoRepository<employee,String>{
 
-    Optional<employee> findByIdAndDate(String id, LocalDate date);
+    // Optional<employee> findByIdAndDate(String id, LocalDate date);
+    Optional<employee> findByEmployeeIdAndDate(String employeeId, LocalDate date);
 
 }

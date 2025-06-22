@@ -20,6 +20,7 @@ public class employee {
 
     @Id
     private String id;
+    private String employeeId; // Business ID from input
     private LocalDate date;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss a")
     private LocalDateTime checkIn;
