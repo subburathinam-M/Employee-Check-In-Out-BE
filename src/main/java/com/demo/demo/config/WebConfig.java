@@ -13,10 +13,13 @@ public class WebConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")  // allow all paths
-                        .allowedOrigins("http://localhost:3000","https://employee-check-in-out.netlify.app/",
-                        "https://*.netlify.app")  // your frontend URL
-                        .allowedMethods("*");  // allow all HTTP methods
+                registry.addMapping("/**") // allow all paths
+                        .allowedOriginPatterns(
+                            "http://localhost:3000",
+                            "https://employee-check-in-out.netlify.app",
+                            "https://*.netlify.app"
+                        )
+                        .allowedMethods("*"); // allow all HTTP methods
             }
         };
     }
