@@ -1,14 +1,13 @@
-# Java runtime use pannu
-FROM openjdk:17-jdk-slim
-
-# Container-la work folder set pannu
+# === Build Stage ===
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-# Local target folder-la irukra jar ah container-kulla copy pannu
-COPY target/*.jar app.jar
-
-# Spring Boot port open pannu
+# === Run Stage ===
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-
-# Jar run pannu
 ENTRYPOINT ["java", "-jar", "app.jar"]
