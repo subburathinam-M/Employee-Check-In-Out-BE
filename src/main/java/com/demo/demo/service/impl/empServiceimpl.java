@@ -62,6 +62,12 @@ public class empServiceimpl implements empService {
     public List<employee> findAll() {
         return employeRepo.findAll();
     }
+
+    @Override
+    public void deleteById(String id) {
+    employeRepo.deleteById(id);
+}
+
 }
 
 

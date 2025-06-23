@@ -31,4 +31,10 @@ public class employeeController {
     public List<employee> findAll() {
         return empService.findAll();
     }
+
+    @DeleteMapping("/delete/{id}")
+public void deleteById(@PathVariable String id) {
+    empService.deleteById(id);
+}
+
 }

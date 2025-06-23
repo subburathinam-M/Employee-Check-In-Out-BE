@@ -9,5 +9,7 @@ public interface empService {
     employee checkIn(employee employee);
     employee checkOut(employee employee);
     List<employee> findAll();
+    void deleteById(String id);
+
 
 }
