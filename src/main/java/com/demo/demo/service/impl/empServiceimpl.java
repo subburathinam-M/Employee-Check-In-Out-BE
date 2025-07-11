@@ -4,12 +4,17 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Pageable;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.demo.demo.entity.employee;
 import com.demo.demo.repository.employeRepo;
+import com.demo.demo.response.PaginatedResponse;
 import com.demo.demo.service.empService;
 
 @Service
@@ -58,10 +63,46 @@ public class empServiceimpl implements empService {
         }
     }
 
-    @Override
-    public List<employee> findAll() {
-        return employeRepo.findAll();
+    // @Override
+    // public List<employee> findAll() {
+    //     return employeRepo.findAll();
+    // }
+
+//     @Override
+// public Page<employee> findAll(int page, int size, String sortField, String sortDir, String searchTerm) {
+//     Sort sort = Sort.by(Sort.Direction.fromString(sortDir), sortField);
+//     Pageable pageable = PageRequest.of(page, size, sort);
+
+//     if (searchTerm == null || searchTerm.isEmpty()) {
+//         return employeRepo.findAll(pageable);
+//     } else {
+//         return employeRepo.findByEmployeeIdContainingIgnoreCase(searchTerm, pageable);
+//     }
+// }
+
+@Override
+public PaginatedResponse<employee> findAll(int page, int size, String sortField, String sortDir, String searchTerm) {
+    Sort sort = Sort.by(Sort.Direction.fromString(sortDir), sortField);
+    Pageable pageable = PageRequest.of(page, size, sort);
+
+    Page<employee> pageResult;
+    if (searchTerm == null || searchTerm.isEmpty()) {
+        pageResult = employeRepo.findAll(pageable);
+    } else {
+        pageResult = employeRepo.findByEmployeeIdContainingIgnoreCase(searchTerm, pageable);
     }
+
+    return new PaginatedResponse<>(
+        pageResult.getContent(),
+        page,
+        size,
+        pageResult.getTotalElements(),
+        pageResult.getTotalPages(),
+        sortField,
+        sortDir
+    );
+}
+
 
     @Override
     public void deleteById(String id) {
